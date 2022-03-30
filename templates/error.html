@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hearts Food Website</title>
+    <meta charset = "utf-8">
+    <link href = "{{ url_for('static', filename='style/main.css') }}" rel = "stylesheet" type = "text/css">
+    <link rel = "shortcut icon" href = "{{ url_for('static', filename='media/icon.png') }}">
+    <script src = "{{ url_for('static', filename='scripts/script.js') }}"></script>
+</head>
+<body>
+    <h1>Error {{errorCode}}</h1>
+    <p>{{message}}</p>
+</body>
+</html>

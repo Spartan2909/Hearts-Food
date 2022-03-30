@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Hearts Food Website</title>
+    <meta charset = "utf-8">
+    <link href = "{{ url_for('static', filename='style/main.css') }}" rel = "stylesheet" type = "text/css">
+    <link rel = "shortcut icon" href = "{{ url_for('static', filename='media/icon.ico') }}">
+    <script src = "{{ url_for('static', filename='scripts/script.js') }}"></script>
+</head>
+<body>
+    <h1>Payment</h1>
+
+    {% from "_formhelpers.html" import render_field %}
+    <form method=post>
+        <dl>
+        {{ render_field(form.cardNum) }}
+        </dl>
+        <p><input type=submit value=Submit>
+    </form>
+</body>
+</html>
