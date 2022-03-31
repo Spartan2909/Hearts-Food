@@ -8,14 +8,10 @@
     <script src = "{{ url_for('static', filename='scripts/script.js') }}"></script>
 </head>
 <body>
-    <h1>Hearts Food Website</h1>
-
-    {% from "_formhelpers.html" import render_field %}
-    <form method=post>
-        <dl>
-        {{ render_field(form.code) }}
-        </dl>
-        <p><input type=submit value=Submit>
-    </form>
+    <h1>Hearts Food</h1>
+    
+    <p>This is a website to order food for a Hearts game.</p>
+    
+    <button type="button" onclick="document.location='/ticket'">Start</button>
 </body>
 </html>
