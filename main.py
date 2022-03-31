@@ -1,21 +1,5 @@
 from flask import Flask, render_template, redirect, url_for, request, session
-from wtforms import Form, IntegerField, SelectMultipleField, SubmitField, validators
-from python import error, options
-
-#Forms
-
-class TicketForm(Form):
-    code = IntegerField('Please enter your ticket number', validators=[validators.DataRequired()])
-
-class FoodForm(Form):
-    foodChoices = SelectMultipleField('Choose your food', choices=options.options)
-
-class PaymentForm(Form):
-    cardNum = IntegerField('Please enter your card number', validators=[validators.DataRequired()])
-
-#General Functions
-
-
+from python import error, options, forms
 
 #App Setup
 
@@ -30,7 +14,7 @@ app.config['SECRET_KEY'] = r'-O/*/|#~mD]=_eeeRl(e#=hbh4a8Y$'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    form = TicketForm(request.form)
+    form = forms.TicketForm(request.form)
     if request.method == 'POST' and form.validate():
         session['code'] = form.code.data
         return redirect(url_for('select'))
@@ -39,7 +23,7 @@ def index():
 
 @app.route('/select', methods=['GET', 'POST'])
 def select():
-    form = FoodForm(request.form)
+    form = forms.FoodForm(request.form)
     if request.method == 'POST' and form.validate():
         session['choices'] = form.foodChoices.data
         return redirect(url_for('payment'))
@@ -47,7 +31,7 @@ def select():
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
-    form = PaymentForm(request.form)
+    form = forms.PaymentForm(request.form)
     return render_template('payment.html', form=form)
 
 #Errors
