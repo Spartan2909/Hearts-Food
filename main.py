@@ -14,12 +14,16 @@ app.config['SECRET_KEY'] = r'-O/*/|#~mD]=_eeeRl(e#=hbh4a8Y$'
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
+    return render_template('index.html')
+
+@app.route('/ticket', methods=['GET', 'POST'])
+def ticket():
     form = forms.TicketForm(request.form)
     if request.method == 'POST' and form.validate():
         session['code'] = form.code.data
         return redirect(url_for('select'))
 
-    return render_template('index.html', form=form)
+    return render_template('ticket.html', form=form)
 
 @app.route('/select', methods=['GET', 'POST'])
 def select():
