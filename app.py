@@ -75,7 +75,7 @@ def index():
 
 @app.route('/ticket', methods=['GET', 'POST'])
 def ticket():
-    form = TicketForm(request.form)
+    form = forms.TicketForm(request.form)
     if request.method == 'POST' and form.validate():
         session['code'] = form.code.data
         return redirect(url_for('select'))
@@ -84,7 +84,7 @@ def ticket():
 
 @app.route('/select', methods=['GET', 'POST'])
 def select():
-    form = FoodForm(request.form)
+    form = forms.FoodForm(request.form)
     if request.method == 'POST' and form.validate():
         session['choices'] = form.foodChoices.data
         return redirect(url_for('payment'))
@@ -92,7 +92,7 @@ def select():
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
-    form = PaymentForm(request.form)
+    form = forms.PaymentForm(request.form)
     return render_template('payment.html', form=form)
 
 #Errors
@@ -104,7 +104,6 @@ def error404(e):
 @app.errorhandler(500)
 def error500(e):
     return render_template('error.html', errorCode=500, message=error.e500)
-
 
 #Run
 
