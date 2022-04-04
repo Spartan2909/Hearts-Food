@@ -1,62 +1,14 @@
 from flask import Flask, render_template, redirect, url_for, request, session
-from flask_sqlalchemy import SQLAlchemy
-from wtforms import Form, StringField, SelectMultipleField, SubmitField, validators
-
-#Database Tables
-
-class Ticket(db.Model):
-    ticketNum = db.Column(db.Integer, primary_key=True)
-    matchDate = db.Column(db.Date, nullable=False)
-    seatNum = db.Column(db.String(6), nullable=False)
-	
-class Order(db.Model):
-	orderID = db.Column(db.Integer, primary_key=True)
-	
-	ticketID = db.column(db.Integer, db.foreign_key('Ticket.ticketID'), nullable=False)
-	
-class Option(db.Model):
-	optionID = db.Column(db.String(25), primary_key=True)
-	foodName = seatNum = db.Column(db.String(35), nullable=False)
-	
-	orderID = db.Column(db.Integer, db.foreign_key('Order.orderID'), nullable=False)
-    
-class Payment(db.Model):
-    cardNum = db.Column(db.String(16), primary_key=True)
-    cvc = db.Column(db.String(4), nullable=False)
-    expDate = db.Column(db.Date, nullable=False)
-    holderName = db.Column(db.String(45), nullable=False)
-    cost = db.Column(db.Float, nullable=False)
-	
-    orderID = db.Column(db.Integer, db.foreign_key('Order.orderID'), nullable=False)
-	
-#Forms
-
-class TicketForm(Form):
-    code = StringField('Please enter your ticket number', validators=[validators.DataRequired()])
-
-class FoodForm(Form):
-    foodChoices = SelectMultipleField('Choose your food', choices=options.options)
-
-class PaymentForm(Form):
-    cardNum = IntegerField('Please enter your card number', validators=[validators.DataRequired()])
-	
-#Errors
-
-class error:
-	e404 = 'The requested page was not found on the server'
-	e500 = 'Internal server error'
+from python import error, forms
 
 #App Setup
 
-app = Flask('hearts_food',
+app = Flask('app',
     template_folder = 'templates',
     static_folder = 'static'
 )
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
 app.config['SECRET_KEY'] = r'-O/*/|#~mD]=_eeeRl(e#=hbh4a8Y$'
-
-db = SQLAlchemy(app)
 
 #Pages
 
@@ -66,7 +18,7 @@ def index():
 
 @app.route('/ticket', methods=['GET', 'POST'])
 def ticket():
-    form = TicketForm(request.form)
+    form = forms.TicketForm(request.form)
     if request.method == 'POST' and form.validate():
         session['code'] = form.code.data
         return redirect(url_for('select'))
@@ -75,7 +27,7 @@ def ticket():
 
 @app.route('/select', methods=['GET', 'POST'])
 def select():
-    form = FoodForm(request.form)
+    form = forms.FoodForm(request.form)
     if request.method == 'POST' and form.validate():
         session['choices'] = form.foodChoices.data
         return redirect(url_for('payment'))
@@ -83,7 +35,7 @@ def select():
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
-    form = PaymentForm(request.form)
+    form = forms.PaymentForm(request.form)
     return render_template('payment.html', form=form)
 
 #Errors
@@ -95,7 +47,6 @@ def error404(e):
 @app.errorhandler(500)
 def error500(e):
     return render_template('error.html', errorCode=500, message=error.e500)
-
 
 #Run
 
