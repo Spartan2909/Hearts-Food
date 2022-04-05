@@ -10,7 +10,7 @@ app = Flask('hearts_food',
     static_folder = 'static'
 )
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////db/data.db'
 app.config['SECRET_KEY'] = r'-O/*/|#~mD]=_eeeRl(e#=hbh4a8Y$'
 
 db = SQLAlchemy(app)
