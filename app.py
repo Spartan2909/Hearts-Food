@@ -35,6 +35,7 @@ class Order(db.Model):
 class Option(db.Model):
 	optionID = db.Column(db.String(25), primary_key=True)
 	optionName = db.Column(db.String(35), nullable=False)
+	price = db.Column(db.Float, nullable=False)
 
 class Choice(db.Model):
     orderNum = db.Column(db.Integer, db.ForeignKey(Order.orderNum), primary_key=True)
@@ -45,7 +46,7 @@ class Payment(db.Model):
     cvc = db.Column(db.String(4), nullable=False)
     expDate = db.Column(db.DateTime, nullable=False)
     holderName = db.Column(db.String(45), nullable=False)
-    cost = db.Column(db.Float, nullable=False)
+    totalPrice = db.Column(db.Float, nullable=False)
 	
     orderID = db.Column(db.Integer, db.ForeignKey(Order.orderNum), nullable=False)
 	
