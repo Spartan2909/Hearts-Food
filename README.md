@@ -5,7 +5,7 @@
  The project containing a list of tasks can be found [here](https://github.com/users/Spartan2909/projects/1/views/3)
 
 ## Contributors
-* Caleb Robson
+* Caleb Robson - Technical Architect
 * Alex Williams
 * Ruairidh Munro
-* Levi Carlin
+* Levi Carlin - UI/UX design
