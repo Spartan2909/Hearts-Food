@@ -10,7 +10,7 @@ app = Flask('hearts_food',
     static_folder = 'static'
 )
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////db/data.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/data.db'
 app.config['SECRET_KEY'] = r'-O/*/|#~mD]=_eeeRl(e#=hbh4a8Y$'
 
 db = SQLAlchemy(app)
@@ -76,7 +76,7 @@ def index():
 
 @app.route('/ticket', methods=['GET', 'POST'])
 def ticket():
-    form = forms.TicketForm(request.form)
+    form = TicketForm(request.form)
     if request.method == 'POST' and form.validate():
         session['code'] = form.code.data
         return redirect(url_for('select'))
@@ -85,7 +85,7 @@ def ticket():
 
 @app.route('/select', methods=['GET', 'POST'])
 def select():
-    form = forms.FoodForm(request.form)
+    form = FoodForm(request.form)
     if request.method == 'POST' and form.validate():
         session['choices'] = form.foodChoices.data
         return redirect(url_for('payment'))
@@ -93,7 +93,7 @@ def select():
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
-    form = forms.PaymentForm(request.form)
+    form = PaymentForm(request.form)
     return render_template('payment.html', form=form)
 
 #Errors
