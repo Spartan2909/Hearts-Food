@@ -1,5 +1,5 @@
 # Hearts Food
- A website to accelerate the process of ordering food. 
+ A website to accelerate the process of ordering food at a match. 
 
 ## Project
  The project containing a list of tasks can be found [here](https://github.com/users/Spartan2909/projects/1/views/3).
