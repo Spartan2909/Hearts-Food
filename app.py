@@ -27,6 +27,8 @@ class Ticket(db.Model):
 class Order(db.Model):
     orderNum = db.Column(db.Integer, primary_key=True)
 
+    orderDate = db.Column(db.DateTime, nullable=False)
+
     ticketID = db.Column(db.Integer, db.ForeignKey(Ticket.ticketNum), nullable=False)
 
     choices = db.relationship('Choice', backref='order', lazy=True)
