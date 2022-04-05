@@ -1,8 +1,8 @@
 # Hearts Food
- A website to allow for ordering of food to pick up at any point in the game.
+ A website to accelerate the process of ordering food. 
 
 ## Project
- The project containing a list of tasks can be found [here](https://github.com/users/Spartan2909/projects/1/views/3)
+ The project containing a list of tasks can be found [here](https://github.com/users/Spartan2909/projects/1/views/3).
 
 ## Contributors
 * Caleb Robson - Technical Architect
