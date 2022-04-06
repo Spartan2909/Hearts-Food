@@ -1,6 +1,6 @@
 # A simple batch script to add new entities to the database
 # Must be placed in the same folder as app.py
-# Will not be pushed or pulled by git
+# Will not be pulled by git
 
 from app import db, Ticket, Order, Option, Choice, Payment
 from datetime import datetime
