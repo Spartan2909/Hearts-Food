@@ -7,5 +7,5 @@
 ## Contributors
 * Caleb Robson - Technical Architect, Lead Developer, Customer Relations
 * Alex Williams - Project Manager, Developer, Lead Tester
-* Ruairidh Munro - UI/UX Designer, Lead Researcher, Developer
+* Ruairidh Munro - UI/UX Designer, Market Researcher, Developer
 * Levi Carlin - UI/UX Designer, Developer, Record Keeper
