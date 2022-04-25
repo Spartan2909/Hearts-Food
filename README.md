@@ -12,7 +12,7 @@
 
 ## Contributors
 
-* Caleb Robson - Technical Architect, Lead Developer, Customer Relations
-* Alex Williams - Project Manager, Developer, Lead Tester
-* Ruairidh Munro - UI/UX Designer, Developer, Market Researcher
-* Levi Carlin - UI/UX Designer, Developer, Record Keeper
+* Caleb Robson (Spartan2909) - Technical Architect, Lead Developer, Customer Relations
+* Alex Williams (Deranged-Dragon) - Project Manager, Developer, Lead Tester
+* Ruairidh Munro (ruairidhMunro) - UI/UX Designer, Developer, Market Researcher
+* Levi Carlin (LeviCarlin) - UI/UX Designer, Developer, Record Keeper
