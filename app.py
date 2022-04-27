@@ -124,6 +124,10 @@ def payment():
     form = PaymentForm(request.form)
     return render_template('payment.html', form=form)
 
+@app.route('/staff', methods=['GET', 'POST'])
+def staff():
+    return render_template('staff.html')
+
 #Errors
 
 @app.errorhandler(404)
@@ -133,6 +137,7 @@ def error404(e):
 @app.errorhandler(500)
 def error500(e):
     return render_template('error.html', errorCode=500, message=error.e500)
+
 
 #Run
 
