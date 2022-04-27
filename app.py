@@ -51,6 +51,21 @@ class Payment(db.Model):
     totalPrice = db.Column(db.Float, nullable=False)
 	
     orderID = db.Column(db.Integer, db.ForeignKey(Order.orderNum), nullable=False)
+
+#Common Functions
+def isHotFood(item):
+    hot = ['Burger', 'Pie']
+    for hotThing in hot:
+        if hotThing in item:
+            return True
+    return False
+
+def isColdFood(item):
+    cold = ['Biscuit']
+    for coldThing in cold:
+        if coldThing in item:
+            return True
+    return False
 	
 #Forms
 
@@ -59,7 +74,10 @@ class TicketForm(Form):
 
 class FoodForm(Form):
     options = Option.query.all()
-    foodChoices = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options])
+    foodHot = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options if isHotFood(option.optionID)])
+    foodCold = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options if isColdFood(option.optionID)])
+    drinkHot = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options if 'Hot' in option.optionID])
+    drinkCold = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options if 'Cold' in option.optionID])
 
 class PaymentForm(Form):
     cardNum = IntegerField('Please enter your card number', validators=[validators.DataRequired()])
@@ -85,13 +103,21 @@ def ticket():
 
     return render_template('ticket.html', form=form)
 
-@app.route('/select', methods=['GET', 'POST'])
-def select():
+@app.route('/food', methods=['GET', 'POST'])
+def food():
     form = FoodForm(request.form)
     if request.method == 'POST' and form.validate():
         session['choices'] = form.foodChoices.data
         return redirect(url_for('payment'))
-    return render_template('select.html', form=form)
+    return render_template('food.html', form=form)
+
+@app.route('/drinks', methods=['GET', 'POST'])
+def drink():
+    form = FoodForm(request.form)
+    if request.method == 'POST' and form.validate():
+        session['choices'] = form.foodChoices.data
+        return redirect(url_for('payment'))
+    return render_template('drink.html', form=form)
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():

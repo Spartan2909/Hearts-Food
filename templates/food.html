@@ -12,10 +12,15 @@
 
     {% from "_formhelpers.html" import render_field %}
     <form method=post>
-        <dl>
-        {{ render_field(form.foodChoices) }}
-        </dl>
-        <p><input type=submit value=Submit>
+        <button type="button" onclick="showItem('foodHot')">
+        <div id="foodHot">
+        {{ render_field(form.foodHot) }}
+        </div>
+        <button type="button" onclick="showItem('foodCold')">
+        <div id="foodCold">
+        {{ render_field(form.foodCold) }}
+        </div>
+        <input type=submit value=Submit>
     </form>
 </body>
 </html>

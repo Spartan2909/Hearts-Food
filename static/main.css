@@ -1,3 +1,7 @@
 * {
     font-family: verdana, arial, sans-serif;
 }
+
+#foodHot, #foodCold, #drinkHot, #drinkCold {
+    display: none;
+}
