@@ -87,7 +87,9 @@ class error:
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    if session['ticketNum'] is None:
+    try:
+        session['ticket']
+    except KeyError:
         return redirect('/ticket')
     else:
         return render_template('index.html')
@@ -143,10 +145,6 @@ def error500(e):
     return render_template('error.html', errorCode=500, message=error.e500)
 
 #Run
-
-@app.before_first_request
-def before_first_request():
-    session['ticketNum'] = None
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
