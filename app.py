@@ -67,8 +67,12 @@ def isColdFood(item):
 	
 #Forms
 
+def ticket_exists(form, field):
+    if field.data not in Ticket.query.all():
+        raise validators.ValidationError('Ticket does not exist')
+
 class TicketForm(Form):
-    code = StringField('Please enter your ticket number', validators=[validators.DataRequired()])
+    ticketNum = StringField('Please enter your ticket number', validators=[validators.DataRequired(), ticket_exists])
 
 class PaymentForm(Form):
     cardNum = IntegerField('Please enter your card number', validators=[validators.DataRequired()])
@@ -83,14 +87,17 @@ class error:
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
-    return render_template('index.html')
+    if session['ticketNum'] is None:
+        return redirect('/ticket')
+    else:
+        return render_template('index.html')
 
 @app.route('/ticket', methods=['GET', 'POST'])
 def ticket():
     form = TicketForm(request.form)
     if request.method == 'POST' and form.validate():
-        session['code'] = form.code.data
-        return redirect(url_for('select'))
+        session['ticketNum'] = form.ticketNum.data
+        return redirect('/')
 
     return render_template('ticket.html', form=form)
 
@@ -135,9 +142,11 @@ def error404(e):
 def error500(e):
     return render_template('error.html', errorCode=500, message=error.e500)
 
-
 #Run
+
+@app.before_first_request
+def before_first_request():
+    session['ticketNum'] = None
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
-    session['basket'] = {}
