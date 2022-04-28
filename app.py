@@ -3,8 +3,6 @@ from flask_sqlalchemy import SQLAlchemy
 from wtforms import Form, StringField, SelectMultipleField, IntegerField, validators
 
 #App Setup
-options = []
-
 app = Flask('hearts_food',
     template_folder = 'templates',
     static_folder = 'static'
@@ -72,13 +70,6 @@ def isColdFood(item):
 class TicketForm(Form):
     code = StringField('Please enter your ticket number', validators=[validators.DataRequired()])
 
-class FoodForm(Form):
-    options = Option.query.all()
-    foodHot = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options if isHotFood(option.optionID)])
-    foodCold = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options if isColdFood(option.optionID)])
-    drinkHot = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options if 'Hot' in option.optionID])
-    drinkCold = SelectMultipleField('Choose your food', choices=[(option.optionID, option.optionName) for option in options if 'Cold' in option.optionID])
-
 class PaymentForm(Form):
     cardNum = IntegerField('Please enter your card number', validators=[validators.DataRequired()])
 	
@@ -103,21 +94,27 @@ def ticket():
 
     return render_template('ticket.html', form=form)
 
-@app.route('/food', methods=['GET', 'POST'])
-def food():
-    form = FoodForm(request.form)
-    if request.method == 'POST' and form.validate():
-        session['choices'] = form.foodChoices.data
-        return redirect(url_for('payment'))
-    return render_template('food.html', form=form)
+@app.route('/food/<action>', methods=['GET', 'POST'])
+def food(action=None):
+    if action == 'add':
+        print('adding food to basket')
+        return redirect('/')
+    else:
+        options = Option.query.all()
+        foodHot = {option.optionID: option.optionName for option in options if isHotFood(option.optionID)}
+        foodCold = {option.optionID: option.optionName for option in options if isColdFood(option.optionID)}
+        return render_template('food.html', foodHot=foodHot, foodCold=foodCold)
 
-@app.route('/drinks', methods=['GET', 'POST'])
-def drink():
-    form = FoodForm(request.form)
-    if request.method == 'POST' and form.validate():
-        session['choices'] = form.foodChoices.data
-        return redirect(url_for('payment'))
-    return render_template('drink.html', form=form)
+@app.route('/drink/<action>', methods=['GET', 'POST'])
+def drink(action=None):
+    if action == 'add':
+        print('adding drinks to basket')
+        return redirect('/')
+    else:
+        options = Option.query.all()
+        drinkHot = {option.optionID: option.optionName for option in options if 'Hot' in option.optionID}
+        drinkCold = {option.optionID: option.optionName for option in options if 'Cold' in option.optionID}
+        return render_template('drink.html', drinkHot=drinkHot, drinkCold=drinkCold)
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
@@ -143,3 +140,4 @@ def error500(e):
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+    session['basket'] = {}

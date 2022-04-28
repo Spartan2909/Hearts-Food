@@ -3,24 +3,29 @@
 <head>
     <title>Hearts Food Website</title>
     <meta charset = "utf-8">
-    <link href = "{{ url_for('static', filename='style/main.css') }}" rel = "stylesheet" type = "text/css">
+    <link href = "{{ url_for('static', filename='main.css') }}" rel = "stylesheet" type = "text/css">
     <link rel = "shortcut icon" href = "{{ url_for('static', filename='media/icon.ico') }}">
-    <script src = "{{ url_for('static', filename='scripts/script.js') }}"></script>
+    <script src = "{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
     <h1>Select Food</h1>
 
-    {% from "_formhelpers.html" import render_field %}
     <form method=post>
-        <button type="button" onclick="showItem('foodHot')">
+        <button type="button" onclick="showFood('foodHot')">Hot</button> <br>
         <div id="foodHot">
-        {{ render_field(form.foodHot) }}
-        </div>
-        <button type="button" onclick="showItem('foodCold')">
+            {% for id, name in foodHot.items() %}
+                <p class="option">{{name}}</p> <input type="number" min="0" max="10" id={{id}} class="foodCount">
+            {% endfor %}
+        </div> <br>
+
+        <button type="button" onclick="showFood('foodCold')">Cold</button> <br>
         <div id="foodCold">
-        {{ render_field(form.foodCold) }}
-        </div>
-        <input type=submit value=Submit>
+            {% for id, name in foodCold.items() %}
+                <p class="option">{{name}}</p> <input type="number" min="0" max="10" id={{id}} class="foodCount">
+            {% endfor %}
+        </div> <br>
+        
+        <input type="submit" value="Add to basket" onclick="document.location='/food/add'">
     </form>
 </body>
 </html>

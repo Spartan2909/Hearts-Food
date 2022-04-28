@@ -1,4 +1,4 @@
-/*Official colours of hearts - dark red: #480210, light red: #9f1931 */
+/* Official colours of hearts - dark red: #480210, light red: #9f1931 */
 
 * {
     font-family: verdana, arial, sans-serif;
@@ -7,4 +7,3 @@
 #foodHot, #foodCold, #drinkHot, #drinkCold {
     display: none;
 }
-
