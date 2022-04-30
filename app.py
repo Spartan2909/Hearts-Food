@@ -1,6 +1,7 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from wtforms import Form, StringField, SelectMultipleField, IntegerField, validators
+import datetime
 
 #App Setup
 app = Flask('hearts_food',
@@ -67,12 +68,15 @@ def isColdFood(item):
 	
 #Forms
 
-def ticket_exists(form, field):
-    if field.data not in Ticket.query.all():
+def ticket_valid(form, field):
+    selectedTicket = Ticket.query.filter_by(ticketNum=field.data).first()
+    if selectedTicket is None:
         raise validators.ValidationError('Ticket does not exist')
+    elif selectedTicket.matchDate < datetime.datetime.now().date():
+        validators.ValidationError('Ticket is out of date')
 
 class TicketForm(Form):
-    ticketNum = StringField('Please enter your ticket number', validators=[validators.DataRequired(), ticket_exists])
+    ticketNum = StringField('Please enter your ticket number', validators=[validators.DataRequired(), ticket_valid])
 
 class PaymentForm(Form):
     cardNum = IntegerField('Please enter your card number', validators=[validators.DataRequired()])
@@ -90,6 +94,7 @@ def index():
     try:
         session['ticket']
     except KeyError:
+        print('index: redirected to ticket')
         return redirect('/ticket')
     else:
         return render_template('index.html')
@@ -98,32 +103,35 @@ def index():
 def ticket():
     form = TicketForm(request.form)
     if request.method == 'POST' and form.validate():
-        session['ticketNum'] = form.ticketNum.data
+        print('ticket: validated')
+        session['ticket'] = form.ticketNum.data
         return redirect('/')
 
     return render_template('ticket.html', form=form)
 
-@app.route('/food/<action>', methods=['GET', 'POST'])
-def food(action=None):
-    if action == 'add':
-        print('adding food to basket')
-        return redirect('/')
-    else:
-        options = Option.query.all()
-        foodHot = {option.optionID: option.optionName for option in options if isHotFood(option.optionID)}
-        foodCold = {option.optionID: option.optionName for option in options if isColdFood(option.optionID)}
-        return render_template('food.html', foodHot=foodHot, foodCold=foodCold)
+@app.route('/food', methods=['GET', 'POST'])
+def food():
+    options = Option.query.all()
+    foodHot = {option.optionID: option.optionName for option in options if isHotFood(option.optionID)}
+    foodCold = {option.optionID: option.optionName for option in options if isColdFood(option.optionID)}
+    return render_template('food.html', foodHot=foodHot, foodCold=foodCold)
 
-@app.route('/drink/<action>', methods=['GET', 'POST'])
-def drink(action=None):
-    if action == 'add':
-        print('adding drinks to basket')
-        return redirect('/')
-    else:
-        options = Option.query.all()
-        drinkHot = {option.optionID: option.optionName for option in options if 'Hot' in option.optionID}
-        drinkCold = {option.optionID: option.optionName for option in options if 'Cold' in option.optionID}
-        return render_template('drink.html', drinkHot=drinkHot, drinkCold=drinkCold)
+@app.route('/food/add', methods=['GET', 'POST'])
+def addFood():
+    print('addFood: adding to basket')
+    return redirect('/') 
+
+@app.route('/drink')
+def drink():
+    options = Option.query.all()
+    drinkHot = {option.optionID: option.optionName for option in options if 'Hot' in option.optionID}
+    drinkCold = {option.optionID: option.optionName for option in options if 'Cold' in option.optionID}
+    return render_template('drink.html', drinkHot=drinkHot, drinkCold=drinkCold)
+
+@app.route('/drink/add', methods=['GET', 'POST'])
+def addDrink():
+    print('addDrink: adding to basket')
+    return redirect('/')
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
