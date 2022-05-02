@@ -17,9 +17,20 @@ function showFood(name) {
 }
 
 function addFood() {
+    const choices  = {}
     const options = Array.from(document.getElementsByClassName('foodCount'));
     
     for (let i = 0; i < options.length; i++) {
-
+        if (options[i].value != 0) {
+            choices[options[i].id] = options[i].value;
+        }
     }
+
+    fetch('/add?origin=food', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(choices)
+    }).then(res => {
+        console.log('posted items to add, respose:', res);
+    });
 }

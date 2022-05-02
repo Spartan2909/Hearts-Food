@@ -52,6 +52,7 @@ class Payment(db.Model):
     orderID = db.Column(db.Integer, db.ForeignKey(Order.orderNum), nullable=False)
 
 #Common Functions
+
 def isHotFood(item):
     hot = ['Burger', 'Pie']
     for hotThing in hot:
@@ -84,8 +85,9 @@ class PaymentForm(Form):
 #Errors
 
 class error:
-	e404 = 'The requested page was not found on the server'
-	e500 = 'Internal server error'
+    e404 = 'The requested page was not found on the server'
+    e405 = 'Invalid request type. Expected {0}, got {1}'
+    e500 = 'Internal server error'
 
 #Pages
 
@@ -116,11 +118,6 @@ def food():
     foodCold = {option.optionID: option.optionName for option in options if isColdFood(option.optionID)}
     return render_template('food.html', foodHot=foodHot, foodCold=foodCold)
 
-@app.route('/food/add', methods=['GET', 'POST'])
-def addFood():
-    print('addFood: adding to basket')
-    return redirect('/') 
-
 @app.route('/drink')
 def drink():
     options = Option.query.all()
@@ -128,10 +125,11 @@ def drink():
     drinkCold = {option.optionID: option.optionName for option in options if 'Cold' in option.optionID}
     return render_template('drink.html', drinkHot=drinkHot, drinkCold=drinkCold)
 
-@app.route('/drink/add', methods=['GET', 'POST'])
-def addDrink():
-    print('addDrink: adding to basket')
-    return redirect('/')
+@app.route('/add', methods=['POST'])
+def add():
+    print(f'add: adding items to basket from origin {request.args.get("origin")}')
+    data = request.get_json
+    return redirect(f'/{request.args.get("origin")}')
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
@@ -140,7 +138,10 @@ def payment():
 
 @app.route('/staff', methods=['GET', 'POST'])
 def staff():
-    return render_template('staff.html')
+    try:
+        return render_template('staff.html', orderView=True, orderNum=request.args['orderNum'])
+    except KeyError:
+        return render_template('staff.html', orderView=False)
 
 #Errors
 
