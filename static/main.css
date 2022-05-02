@@ -16,15 +16,26 @@ h1, h3 {
 
 nav ul {
     list-style-type: none;
-    background-color: #480210;
 }
 
 nav ul li {
-    color: white;
+    background-color: #480210;
+    padding-right: 10px;
     float: left;
-    margin-right: 10px;
 }
 
-img{
-    width: 200px;
+nav ul li a {
+    font-size: 20px;
+    padding: 10px 30px;
+    display: block;
+    text-decoration: none;
+    color: white;
+}
+
+#menu {
+    clear: left;
+}
+
+img {
+    width: 500px;
 }

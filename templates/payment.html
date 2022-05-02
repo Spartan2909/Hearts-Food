@@ -10,12 +10,22 @@
 <body>
     <h1>Payment</h1>
 
+    <nav>
+        <ul>
+            <li><a href="/food">Food</a></li>
+            <li><a href="/drink">Drinks</a></li>
+            <li><a href="/payment">Checkout</a></li>
+        </ul>
+    </nav>
+
     {% from "_formhelpers.html" import render_field %}
-    <form method=post>
-        <dl>
-        {{ render_field(form.cardNum) }}
-        </dl>
-        <p><input type=submit value=Submit>
-    </form>
+    <div id="menu">
+        <form method=post>
+            <dl>
+            {{ render_field(form.cardNum) }}
+            </dl>
+            <p><input type=submit value=Submit>
+        </form>
+    </div>
 </body>
 </html>

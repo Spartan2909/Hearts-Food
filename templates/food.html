@@ -10,22 +10,32 @@
 <body>
     <h1>Select Food</h1>
 
-    <form method=post>
-        <button type="button" onclick="showFood('foodHot')">Hot</button> <br>
-        <div id="foodHot">
-            {% for id, name in foodHot.items() %}
-                <p class="option">{{name}}</p> <input type="number" min="0" max="10" id={{id}} class="foodCount">
-            {% endfor %}
-        </div> <br>
+    <nav>
+        <ul>
+            <li><a href="/food">Food</a></li>
+            <li><a href="/drink">Drinks</a></li>
+            <li><a href="/payment">Checkout</a></li>
+        </ul>
+    </nav>
 
-        <button type="button" onclick="showFood('foodCold')">Cold</button> <br>
-        <div id="foodCold">
-            {% for id, name in foodCold.items() %}
-                <p class="option">{{name}}</p> <input type="number" min="0" max="10" id={{id}} class="foodCount">
-            {% endfor %}
-        </div> <br>
-        
-        <input type="submit" value="Add to basket" onclick="document.location='/food/add'">
-    </form>
+    <div id="menu">
+        <form method=post>
+            <button type="button" onclick="showFood('foodHot')">Hot</button> <br>
+            <div id="foodHot">
+                {% for id, name in foodHot.items() %}
+                    <p class="option">{{name}}</p> <input type="number" min="0" max="10" id={{id}} class="foodCount">
+                {% endfor %}
+            </div> <br>
+
+            <button type="button" onclick="showFood('foodCold')">Cold</button> <br>
+            <div id="foodCold">
+                {% for id, name in foodCold.items() %}
+                    <p class="option">{{name}}</p> <input type="number" min="0" max="10" id={{id}} class="foodCount">
+                {% endfor %}
+            </div> <br>
+            
+            <input type="submit" value="Add to basket" onclick="document.location='/food/add'">
+        </form>
+    </div>
 </body>
 </html>
