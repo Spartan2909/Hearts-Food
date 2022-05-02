@@ -1,9 +1,20 @@
 /* Official colours of hearts - dark red: #480210, light red: #9f1931 */
 
 * {
+    margin: 0;
+    padding: 0;
     font-family: verdana, arial, sans-serif;
 }
 
 #foodHot, #foodCold, #drinkHot, #drinkCold {
     display: none;
+}
+
+nav ul {
+    list-style-type: none;
+}
+
+nav ul li {
+    float: left;
+    margin-right: 10px;
 }
