@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import Form, StringField, SelectMultipleField, IntegerField, validators
+from wtforms import Form, StringField, IntegerField, validators
 import datetime
 
 #App Setup
@@ -81,6 +81,9 @@ class TicketForm(Form):
 
 class PaymentForm(Form):
     cardNum = IntegerField('Please enter your card number', validators=[validators.DataRequired()])
+
+class OrderSelectForm(Form):
+    orderNum = StringField(None, validators=[validators.DataRequired()])
 	
 #Errors
 
@@ -138,10 +141,30 @@ def payment():
 
 @app.route('/staff', methods=['GET', 'POST'])
 def staff():
-    try:
-        return render_template('staff.html', orderView=True, orderNum=request.args['orderNum'])
-    except KeyError:
-        return render_template('staff.html', orderView=False)
+    #Use OrderSelectForm to redirect to /staff?ordernum=selectedField
+        try:
+            orderNum = request.args['ordernum']
+            choices = Choice.query.filter_by(orderNum=orderNum).all()
+            orderItems = []
+            for choice in choices:
+                orderItems.append(Option.query.filter_by(optionID=choice.optionID).first())
+
+            return render_template('staff.html', orderView=True, orderNum=orderNum, orderItems=[item.optionName for item in orderItems])
+
+        except KeyError:
+            choices = Choice.query.all()
+            orders = {}
+            for choice in choices:
+                if choice.optionID in orders:
+                    orders[choice.optionID] += 1
+                else:
+                    orders[choice.optionID] = 1
+
+            orderNames = orders.copy()
+            for order in orderNames:
+                orderNames[order] = Option.query.filter_by(optionID=order).first().optionName
+
+            return render_template('staff.html', orderView=False, orderItems={orderNames[orderID]: orderNum for (orderID, orderNum) in orders.items()})
 
 #Errors
 

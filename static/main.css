@@ -1,8 +1,6 @@
 /* Official colours of hearts - dark red: #480210, light red: #9f1931 */
 
 * {
-    margin: 0;
-    padding: 0;
     font-family: verdana, arial, sans-serif;
 }
 
@@ -15,12 +13,14 @@ h1, h3 {
 }
 
 nav ul {
+    margin: 0;
+    padding: 0;
     list-style-type: none;
 }
 
 nav ul li {
-    background-color: #480210;
     padding-right: 10px;
+    margin-bottom: 10px;
     float: left;
 }
 
@@ -30,6 +30,7 @@ nav ul li a {
     display: block;
     text-decoration: none;
     color: white;
+    background-color: #480210;
 }
 
 #menu {

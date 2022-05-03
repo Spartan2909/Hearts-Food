@@ -34,3 +34,10 @@ function addFood() {
         console.log('posted items to add, respose:', res);
     });
 }
+
+function orderView() {
+    orderNum = document.getElementById("orderNum").value
+    console.log("viewing order: " + orderNum)
+    console.log("going to location: /staff?ordernum=" + orderNum)
+    document.location.href = "/staff?ordernum=" + orderNum
+}
