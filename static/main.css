@@ -22,6 +22,7 @@ nav ul li {
     padding-right: 10px;
     margin-bottom: 10px;
     float: left;
+    background-color: #480210;
 }
 
 nav ul li a {
@@ -30,7 +31,6 @@ nav ul li a {
     display: block;
     text-decoration: none;
     color: white;
-    background-color: #480210;
     transition-duration: 0.2s;
 }
 
@@ -42,6 +42,17 @@ nav ul li a:hover {
     clear: left;
 }
 
+#staff {
+    margin-top: 20px;
+    width: 110px;
+    font-size: 20px;
+    background-color: #ddd;
+    padding: 5px;
+    display: block;
+    text-decoration: none;
+    color: #fff;
+}
+
 img {
-    width: 500px;
+    width: 400px;
 }
