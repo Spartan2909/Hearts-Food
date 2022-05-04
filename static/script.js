@@ -17,6 +17,7 @@ function showFood(name) {
 }
 
 function addFood() {
+    /* Nonfunctional
     const choices  = {}
     const options = Array.from(document.getElementsByClassName('foodCount'));
     
@@ -33,6 +34,11 @@ function addFood() {
     }).then(res => {
         console.log('posted items to add, respose:', res);
     });
+    */
+}
+
+function addDrink() {
+    
 }
 
 function orderView() {

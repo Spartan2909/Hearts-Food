@@ -23,8 +23,8 @@
     {% else %}
         <h3>All items</h3>
         <ul>
-        {% for name, number in orderItems.items() %}
-            <li>{{name}}: {{number}}</li>
+        {% for name, quantity in orderItems.items() %}
+            <li>{{name}}: {{quantity}}</li>
         {% endfor %}
         </ul><br>
 

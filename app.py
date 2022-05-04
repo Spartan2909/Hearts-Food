@@ -1,6 +1,6 @@
 from flask import Flask, render_template, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
-from wtforms import Form, StringField, IntegerField, validators
+from wtforms import Form, StringField, IntegerField, validators, TextAreaField
 import datetime
 
 #App Setup
@@ -79,11 +79,8 @@ def ticket_valid(form, field):
 class TicketForm(Form):
     ticketNum = StringField('Please enter your ticket number', validators=[validators.DataRequired(), ticket_valid])
 
-class PaymentForm(Form):
-    cardNum = IntegerField('Please enter your card number', validators=[validators.DataRequired()])
-
-class OrderSelectForm(Form):
-    orderNum = StringField(None, validators=[validators.DataRequired()])
+class BasketForm(Form):
+    comment = TextAreaField('', render_kw={'rows':'4'})
 	
 #Errors
 
@@ -101,7 +98,13 @@ def index():
     except KeyError:
         print('index: redirected to ticket')
         return redirect('/ticket')
+
     else:
+        try:
+            session['basket']
+        except KeyError:
+            session['basket'] = {} #LEAVE BLANK
+
         return render_template('index.html')
 
 @app.route('/ticket', methods=['GET', 'POST'])
@@ -132,12 +135,26 @@ def drink():
 def add():
     print(f'add: adding items to basket from origin {request.args.get("origin")}')
     data = request.get_json
-    return redirect(f'/{request.args.get("origin")}')
+    return redirect('/' + request.args.get("origin"))
+
+@app.route('/basket', methods=['GET', 'POST'])
+def basket():
+    form = BasketForm(request.form)
+    if request.method == 'POST' and form.validate():
+        session['comment'] = form.comment.data if form.comment.data else None
+        return redirect('/payment')
+
+    else:
+        session['basket'] = {'foodPieScotch': 1, 'drinkHotBovril': 2} #remove when add() and related features are functioning
+
+        return render_template('basket.html', form=form, basket={
+            Option.query.filter_by(optionID=id).first().optionName: quantity
+            for (id, quantity) in session['basket'].items()
+            })
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
-    form = PaymentForm(request.form)
-    return render_template('payment.html', form=form)
+    return render_template('payment.html')
 
 @app.route('/staff', methods=['GET', 'POST'])
 def staff():

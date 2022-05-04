@@ -18,9 +18,21 @@
         </ul>
     </nav>
 
+    {% from "_formhelpers.html" import render_field %}
     <div id="menu">
-        <button type="button" onclick="">PayPal</button>
-        <button type="button" onclick="">Visa/MasterCard</button>
+        <h3>Basket</h3>
+        
+        <ul>
+        {% for name, quantity in basket.items() %}
+            <li>{{name}}: {{quantity}}</li>
+        {% endfor %}
+        </ul>
+
+        <form method="post">
+            <p>Any special requests?</p>
+            {{ render_field(form.comment) }}<br>
+            <input type="submit" value="Submit">
+        </form>
     </div>
 </body>
 </html>

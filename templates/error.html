@@ -8,6 +8,14 @@
     <script src = "{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="/food">Food</a></li>
+            <li><a href="/drink">Drinks</a></li>
+            <li><a href="/payment">Checkout</a></li>
+        </ul>
+    </nav>
+    
     <h1>Error {{errorCode}}</h1>
     <p>{{message}}</p>
 </body>
