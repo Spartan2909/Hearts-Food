@@ -23,10 +23,12 @@
         <h3>Basket</h3>
         
         <ul>
-        {% for i in range(basketLength) %}
-            <li>{{basket[0][i].name}}: {{basket[1][i]}} £{{basket[0][i].price}}</li>
+        {% for option, quantity in basket.items() %}
+            <li>{{option[1]}}: {{quantity}} &emsp; Price: £{{option[2]}}</li>
         {% endfor %}
         </ul>
+
+        <p>Total: £{{totalPrice}}</p>
 
         <form method="post">
             <p>Any special requests?</p>

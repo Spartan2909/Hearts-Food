@@ -172,19 +172,23 @@ def basket():
         return redirect('/payment')
 
     else:
-        '''
         session['basket'] = {
-            Option.query.filter_by(optionID='foodPieScotch').first(): 1,
-            Option.query.filter_by(optionID='drinkHotBovril').first(): 2
+            'foodPieScotch': 1,
+            'drinkHotBovril': 2
             } # remove when add() and related features are functioning
-        '''
 
-        basket = [[], []]
-        for option, quantity in session['basket'].items(): # Change option items to strings
-            basket[0].append(OptionRecord(option.optionID, option.optionName, formatPrice(option.price*quantity)))
-            basket[1].append(quantity)
+        options = [Option.query.filter_by(optionID=id).first() for id in session['basket']]
 
-        return render_template('basket.html', form=form, basket=basket, basketLength=len(basket[0]))
+        basket = {
+            (option.optionID, option.optionName, formatPrice(option.price*session['basket'][option.optionID])): session['basket'][option.optionID]
+            for option in options
+            }
+
+        totalPrice = 0
+        for option in basket:
+            totalPrice += float(option[2])
+
+        return render_template('basket.html', form=form, basket=basket, totalPrice=formatPrice(totalPrice))
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
