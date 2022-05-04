@@ -36,8 +36,7 @@ function addFood() {
 }
 
 function orderView() {
-    orderNum = document.getElementById("orderNum").value
-    console.log("viewing order: " + orderNum)
-    console.log("going to location: /staff?ordernum=" + orderNum)
-    document.location.href = "/staff?ordernum=" + orderNum
+    orderNum = document.getElementById("ordernum").value;
+    console.log("viewing order: " + orderNum);
+    document.location = "/staff/" + orderNum;
 }

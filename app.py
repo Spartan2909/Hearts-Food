@@ -141,30 +141,28 @@ def payment():
 
 @app.route('/staff', methods=['GET', 'POST'])
 def staff():
-    #Use OrderSelectForm to redirect to /staff?ordernum=selectedField
-        try:
-            orderNum = request.args['ordernum']
-            choices = Choice.query.filter_by(orderNum=orderNum).all()
-            orderItems = []
-            for choice in choices:
-                orderItems.append(Option.query.filter_by(optionID=choice.optionID).first())
+    choices = Choice.query.all()
+    orders = {}
+    for choice in choices:
+        if choice.optionID in orders:
+            orders[choice.optionID] += 1
+        else:
+            orders[choice.optionID] = 1
 
-            return render_template('staff.html', orderView=True, orderNum=orderNum, orderItems=[item.optionName for item in orderItems])
+    orderNames = orders.copy()
+    for order in orderNames:
+        orderNames[order] = Option.query.filter_by(optionID=order).first().optionName
 
-        except KeyError:
-            choices = Choice.query.all()
-            orders = {}
-            for choice in choices:
-                if choice.optionID in orders:
-                    orders[choice.optionID] += 1
-                else:
-                    orders[choice.optionID] = 1
+    return render_template('staff.html', orderView=False, orderItems={orderNames[orderID]: orderNum for (orderID, orderNum) in orders.items()})
 
-            orderNames = orders.copy()
-            for order in orderNames:
-                orderNames[order] = Option.query.filter_by(optionID=order).first().optionName
+@app.route('/staff/<orderNum>', methods=['GET', 'POST'])
+def orderView(orderNum=None):
+    choices = Choice.query.filter_by(orderNum=orderNum).all()
+    orderItems = []
+    for choice in choices:
+        orderItems.append(Option.query.filter_by(optionID=choice.optionID).first())
 
-            return render_template('staff.html', orderView=False, orderItems={orderNames[orderID]: orderNum for (orderID, orderNum) in orders.items()})
+    return render_template('staff.html', orderView=True, orderNum=orderNum, orderItems=[item.optionName for item in orderItems])
 
 #Errors
 

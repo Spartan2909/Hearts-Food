@@ -8,7 +8,7 @@
     <script src = "{{ url_for('static', filename='script.js') }}"></script>
 </head>
 <body>
-    <a href="">Back to home</a><br>
+    <a href="/">Back to home</a><br>
 
     {% if orderView %}
         <h3>Order {{orderNum}}</h3>
@@ -21,8 +21,6 @@
         <a href="/staff">Return to item view</a>
 
     {% else %}
-        {% from "_formhelpers.html" import render_field %}
-
         <h3>All items</h3>
         <ul>
         {% for name, number in orderItems.items() %}
@@ -30,10 +28,8 @@
         {% endfor %}
         </ul><br>
 
-        <form method="post">
-            {{ render_field(form.orderNum) }}
-            <input type="submit" value="Go to order">
-        </form>
+        <input type="number" min="0" id="ordernum">
+        <input type="submit" value="Go to order" onclick="orderView()">
     {% endif %}
 </body>
 </html>
