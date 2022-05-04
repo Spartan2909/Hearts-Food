@@ -182,7 +182,7 @@ def basket():
             basket[0].append(OptionRecord(option.optionID, option.optionName, formatPrice(option.price*quantity)))
             basket[1].append(quantity)
 
-        return render_template('basket.html', form=form, basket=basket, basketLength=len(basket[0]))
+        return render_template('basket.html', form=form, basket=basket, basketLength=[i for i in range(len(basket[0]))])
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():
