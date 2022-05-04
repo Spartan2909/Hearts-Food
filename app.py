@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, url_for, request, session
 from flask_sqlalchemy import SQLAlchemy
 from wtforms import Form, StringField, IntegerField, validators, TextAreaField
 import datetime
+from dataclasses import dataclass
 
 # App Setup
 app = Flask('hearts_food',
@@ -66,6 +67,20 @@ def isColdFood(item):
         if coldThing in item:
             return True
     return False
+
+def formatPrice(price):
+    price = str(price)
+    decPoint = price.index('.')
+    if len(price[decPoint+1:]) < 2:
+        price += '0'
+
+    return price
+
+@dataclass
+class OptionRecord:
+    id: str
+    name: str
+    price: float
 	
 # Forms
 
@@ -120,15 +135,27 @@ def ticket():
 @app.route('/food', methods=['GET', 'POST'])
 def food():
     options = Option.query.all()
-    foodHot = {option.optionID: option.optionName for option in options if isHotFood(option.optionID)}
-    foodCold = {option.optionID: option.optionName for option in options if isColdFood(option.optionID)}
+    foodHot = [OptionRecord(
+        option.optionID, option.optionName, formatPrice(option.price)
+        ) for option in options if isHotFood(option.optionID)]
+
+    foodCold = [OptionRecord(
+        option.optionID, option.optionName, formatPrice(option.price)
+    ) for option in options if isColdFood(option.optionID)]
+
     return render_template('food.html', foodHot=foodHot, foodCold=foodCold)
 
 @app.route('/drink')
 def drink():
     options = Option.query.all()
-    drinkHot = {option.optionID: option.optionName for option in options if 'Hot' in option.optionID}
-    drinkCold = {option.optionID: option.optionName for option in options if 'Cold' in option.optionID}
+    drinkHot = [OptionRecord(
+        option.optionID, option.optionName, formatPrice(option.price)
+        ) for option in options if 'Hot' in option.optionID]
+
+    drinkCold = [OptionRecord(
+        option.optionID, option.optionName, formatPrice(option.price)
+    ) for option in options if 'Cold' in option.optionID]
+    
     return render_template('drink.html', drinkHot=drinkHot, drinkCold=drinkCold)
 
 @app.route('/add', methods=['POST'])
@@ -145,12 +172,17 @@ def basket():
         return redirect('/payment')
 
     else:
-        session['basket'] = {'foodPieScotch': 1, 'drinkHotBovril': 2} # remove when add() and related features are functioning
+        session['basket'] = {
+            Option.query.filter_by(optionID='foodPieScotch').first(): 1,
+            Option.query.filter_by(optionID='drinkHotBovril').first(): 2
+            } # remove when add() and related features are functioning
 
-        return render_template('basket.html', form=form, basket={
-            Option.query.filter_by(optionID=id).first().optionName: quantity
-            for (id, quantity) in session['basket'].items()
-            })
+        basket = [[], []]
+        for option, quantity in session['basket'].items():
+            basket[0].append(OptionRecord(option.optionID, option.optionName, formatPrice(option.price*quantity)))
+            basket[1].append(quantity)
+
+        return render_template('basket.html', form=form, basket=basket, basketLength=len(basket[0]))
 
 @app.route('/payment', methods=['GET', 'POST'])
 def payment():

@@ -23,8 +23,8 @@
         <h3>Basket</h3>
         
         <ul>
-        {% for name, quantity in basket.items() %}
-            <li>{{name}}: {{quantity}}</li>
+        {% for i in range(basketLength) %}
+            <li>{{basket[0][i].name}}: {{basket[1][i]}} £{{basket[0][i].price}}</li>
         {% endfor %}
         </ul>
 
