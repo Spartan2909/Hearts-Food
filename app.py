@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from wtforms import Form, StringField, IntegerField, validators, TextAreaField
 import datetime
 
-#App Setup
+# App Setup
 app = Flask('hearts_food',
     template_folder = 'templates',
     static_folder = 'static'
@@ -14,7 +14,7 @@ app.config['SECRET_KEY'] = r'-O/*/|#~mD]=_eeeRl(e#=hbh4a8Y$'
 
 db = SQLAlchemy(app)
 
-#Database Tables
+# Database Tables
 
 class Ticket(db.Model):
     ticketNum = db.Column(db.Integer, primary_key=True)
@@ -51,7 +51,7 @@ class Payment(db.Model):
 	
     orderID = db.Column(db.Integer, db.ForeignKey(Order.orderNum), nullable=False)
 
-#Common Functions
+# Common Functions
 
 def isHotFood(item):
     hot = ['Burger', 'Pie']
@@ -67,7 +67,7 @@ def isColdFood(item):
             return True
     return False
 	
-#Forms
+# Forms
 
 def ticket_valid(form, field):
     selectedTicket = Ticket.query.filter_by(ticketNum=field.data).first()
@@ -82,14 +82,14 @@ class TicketForm(Form):
 class BasketForm(Form):
     comment = TextAreaField('', render_kw={'rows':'4'})
 	
-#Errors
+# Errors
 
 class error:
     e404 = 'The requested page was not found on the server'
     e405 = 'Invalid request type. Expected {0}, got {1}'
     e500 = 'Internal server error'
 
-#Pages
+# Pages
 
 @app.route('/', methods=['GET', 'POST'])
 def index():
@@ -103,7 +103,7 @@ def index():
         try:
             session['basket']
         except KeyError:
-            session['basket'] = {} #LEAVE BLANK
+            session['basket'] = {} # LEAVE BLANK
 
         return render_template('index.html')
 
@@ -145,7 +145,7 @@ def basket():
         return redirect('/payment')
 
     else:
-        session['basket'] = {'foodPieScotch': 1, 'drinkHotBovril': 2} #remove when add() and related features are functioning
+        session['basket'] = {'foodPieScotch': 1, 'drinkHotBovril': 2} # remove when add() and related features are functioning
 
         return render_template('basket.html', form=form, basket={
             Option.query.filter_by(optionID=id).first().optionName: quantity
@@ -181,7 +181,7 @@ def orderView(orderNum=None):
 
     return render_template('staff.html', orderView=True, orderNum=orderNum, orderItems=[item.optionName for item in orderItems])
 
-#Errors
+# Errors
 
 @app.errorhandler(404)
 def error404(e):
@@ -191,7 +191,7 @@ def error404(e):
 def error500(e):
     return render_template('error.html', errorCode=500, message=error.e500)
 
-#Run
+# Run
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
