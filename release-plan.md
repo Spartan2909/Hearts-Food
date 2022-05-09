@@ -1,9 +1,9 @@
 # Plan
 
- * Complete release 1 ASAP
- * Complete release 2 by end of project
- * Potentially complete release 3
- * Release 4+ not realistic for this 8-week block
+ * Complete release 1 by end of project
+ * Potentially complete release 2
+ * Release 3 possible but not feasible in 8 week block
+ * Release 4+ not realistic for our current skillset and experience
 
 # Releases/Rollouts
 
