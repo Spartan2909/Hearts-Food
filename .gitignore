@@ -130,6 +130,3 @@ dmypy.json
 
 # Database update script
 updatescript.py
-
-#VSCode stuff
-.vscode/launch.json
