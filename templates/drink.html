@@ -22,15 +22,15 @@
         <form>
             <button type="button" onclick="showDrink('drinkHot')">Hot</button> <br>
             <div id="drinkHot">
-                {% for id, name in drinkHot.items() %}
-                    <p class="option">{{name}}</p> <input type="number" min="0" max="10" id={{id}} class="drinkCount">
+                {% for option in drinkHot %}
+                    <p class="option">{{option.name}} £{{option.price}}</p> <input type="number" min="0" max="10" id={{option.id}} class="drinkCount">
                 {% endfor %}
             </div> <br>
 
             <button type="button" onclick="showDrink('drinkCold')">Cold</button> <br>
             <div id="drinkCold">
-                {% for id, name in drinkCold.items() %}
-                    <p class="option">{{name}}</p> <input type="number" min="0" max="10" id={{id}} class="drinkCount">
+                {% for option in drinkCold %}
+                    <p class="option">{{option.name}} £{{option.price}}</p> <input type="number" min="0" max="10" id={{option.id}} class="drinkCount">
                 {% endfor %}
             </div> <br>
             
