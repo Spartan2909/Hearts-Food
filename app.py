@@ -115,7 +115,7 @@ def index():
         return redirect('/ticket')
 
     else:
-        if session.get('basket') is None:
+        if 'basket' not in session:
             session['basket'] = {} # LEAVE BLANK
 
         return render_template('index.html')
