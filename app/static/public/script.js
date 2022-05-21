@@ -40,9 +40,3 @@ function addFood() {
 function addDrink() {
     
 }
-
-function orderView() {
-    orderNum = document.getElementById("ordernum").value;
-    console.log("viewing order: " + orderNum);
-    document.location = "/staff/" + orderNum;
-}

@@ -5,19 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run Test Server",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "py -3.10 app/manage.py runserver 0.0.0.0:5000",
+            "terminalName": "Test Server",
+            "terminalIndex": -1,
+            "showTerminal": true
+        },
+
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
-        
-        {
-            "name": "Python: app.py",
-            "type": "python",
-            "request": "launch",
-            "program": "app.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }
