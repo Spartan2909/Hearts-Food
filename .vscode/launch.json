@@ -5,19 +5,20 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "name": "Run Test Server",
+            "type": "f5anything",
+            "request": "launch",
+            "command": "(py -3.10 manage.py runserver 0.0.0.0:8000) -or (py -3.10 hungrymidlothian/manage.py runserver 0.0.0.0:8000)",
+            "terminalName": "Test Server",
+            "terminalIndex": -1,
+            "showTerminal": true
+        },
+
+        {
             "name": "Python: Current File",
             "type": "python",
             "request": "launch",
             "program": "${file}",
-            "console": "integratedTerminal",
-            "justMyCode": true
-        },
-        
-        {
-            "name": "Python: app.py",
-            "type": "python",
-            "request": "launch",
-            "program": "app.py",
             "console": "integratedTerminal",
             "justMyCode": true
         }

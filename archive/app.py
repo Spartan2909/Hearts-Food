@@ -76,6 +76,18 @@ def formatPrice(price):
 
     return price
 
+def validate_card(num:str) -> bool:
+    total = 0
+    for i, digit in enumerate(num):
+        if i % 2:
+            temp = str(int(digit) * 2)
+            if len(temp) == 2:
+                total += int(temp[0]) + int(temp[1])
+        else:
+            total += int(digit)
+
+    return total % 10 == 0
+
 @dataclass
 class OptionRecord:
     id: str
