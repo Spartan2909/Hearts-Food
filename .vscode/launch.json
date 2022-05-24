@@ -8,7 +8,7 @@
             "name": "Run Test Server",
             "type": "f5anything",
             "request": "launch",
-            "command": "py -3.10 app/manage.py runserver 0.0.0.0:5000",
+            "command": "py -3.10 manage.py runserver 0.0.0.0 || py -3.10 hungrymidlothian/manage.py runserver 0.0.0.0",
             "terminalName": "Test Server",
             "terminalIndex": -1,
             "showTerminal": true
