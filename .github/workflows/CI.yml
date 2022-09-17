@@ -1,0 +1,24 @@
+name: CI
+
+on:
+#  push:
+#    branches: [main]
+#    paths-ignore: ["**.md", ".vscode/**"]
+  pull_request:
+    branches: [main]
+    
+  workflow_dispatch:
+    
+jobs:
+  django:
+    uses: Spartan2909/workflows/.github/workflows/django-test.yml@main
+    with:
+      project-root: backend
+  
+#  tsc:
+#    uses: Spartan2909/workflows/.github/workflows/tsc.yml@main
+    
+#  sass:
+#    uses: Spartan2909/workflows/.github/workflows/compile-sass.yml@main
+#    with:
+#      sass-folder: KlebNet
