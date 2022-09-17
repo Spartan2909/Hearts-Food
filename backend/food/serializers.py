@@ -11,7 +11,7 @@ class OptionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Option
-        fields = ['pk', 'name', 'price']
+        fields = ['pk', 'name', 'price', 'option_type']
 
 class OrderSerializer(serializers.ModelSerializer):
 

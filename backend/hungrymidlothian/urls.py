@@ -3,6 +3,8 @@ from django.urls import path, include
 from food import views
 
 urlpatterns = [
-    path('api/options/', views.option_list),
+    path('api/option/', views.option),
+    path('api/ticket/<int:ticket_number>/', views.ticket),
+    path('api/order/', views.order),
     path('admin/', admin.site.urls),
 ]
