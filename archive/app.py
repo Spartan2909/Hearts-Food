@@ -6,8 +6,8 @@ from dataclasses import dataclass
 
 # App Setup
 app = Flask('hearts_food',
-    template_folder = 'templates',
-    static_folder = 'static'
+    template_folder = 'archive/templates',
+    static_folder = 'archive/static'
 )
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///db/data.db'
@@ -75,6 +75,18 @@ def formatPrice(price):
         price += '0'
 
     return price
+
+def validate_card(num:str) -> bool:
+    total = 0
+    for i, digit in enumerate(num):
+        if i % 2:
+            temp = str(int(digit) * 2)
+            if len(temp) == 2:
+                total += int(temp[0]) + int(temp[1])
+        else:
+            total += int(digit)
+
+    return total % 10 == 0
 
 @dataclass
 class OptionRecord:
@@ -230,4 +242,4 @@ def error500(e):
 # Run
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=5000)
+    app.run(host='127.0.0.1', port=8080)
