@@ -13,7 +13,7 @@ jobs:
   django:
     uses: Spartan2909/workflows/.github/workflows/django-test.yml@main
     with:
-      project-root: backend
+      project-root: heartsfood-be
   
 #  tsc:
 #    uses: Spartan2909/workflows/.github/workflows/tsc.yml@main
